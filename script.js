@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
         fileInput.click();
-        saveFile();
     }
 
     // Attach event listener to the editor for user input
