@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const editor = document.getElementById("editor");
     const filenameDisplay = document.getElementById("filename");
-    let timer;
+    const lastSavedDisplay = document.getElementById("lastSaved");
+    let timer, saveTimer;
 
     // Load saved content from localStorage
     if (localStorage.getItem("current_tab_content")) {
@@ -9,9 +10,20 @@ document.addEventListener("DOMContentLoaded", () => {
         updateFilename();
     }
 
-    // Save content to localStorage
+    // Save content to localStorage and show the "Saving..." status
     function saveContent() {
         localStorage.setItem("current_tab_content", editor.value);
+        showSavingStatus();
+    }
+
+    // Show "Saving..." for 1 second, then hide it
+    function showSavingStatus() {
+        lastSavedDisplay.textContent = "saved";
+        
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+            lastSavedDisplay.textContent = ""; // Clear the message after 1 second
+        }, 1000);
     }
 
     // Auto-save function triggered by user input
@@ -22,11 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);  // Save after 1 second of inactivity
     }
 
-    // Update filename display
+    // Update filename display to only use the first line
     function updateFilename() {
         const content = editor.value.trim();
-        const filename = content.substring(0, 20) || "Untitled";
-        filenameDisplay.textContent = filename;
+        const firstLine = content.split("\n")[0].substring(0, 30) || "Untitled";
+        filenameDisplay.textContent = firstLine;
     }
 
     // Save file

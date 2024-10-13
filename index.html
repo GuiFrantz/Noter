@@ -8,20 +8,21 @@
 </head>
 <body>
     <header>
-        <div class="header-left">
+        <div class="title">
             <h1>WebNote</h1>
             <p id="filename">Untitled</p>
         </div>
-        <div class="header-right">
-            <button id="openFileBtn">Open</button>
-            <button id="saveFileBtn">Download</button>
-        </div>
+            <p id="lastSaved"></p>
     </header>
     <div class="editor-container">
         <textarea id="editor" placeholder="Start typing..."></textarea>
     </div>
     <footer>
-        <p>Created by <a href="https://github.com/GuiFrantz" >@Gui Frantz</a></p>
+        <p>Created by <a href="https://github.com/GuiFrantz">@Gui Frantz</a></p>
+        <div class="actions">
+            <button id="openFileBtn">Open</button>
+            <button id="saveFileBtn">Download</button>
+        </div>
     </footer>
 
     <script src="script.js"></script>
