@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update filename display to only use the first line
     function updateFilename() {
         const content = editor.value.trim();
-        const firstLine = content.split("\n")[0].substring(0, 30) || "Untitled";
+        const firstLine = content.split("\n")[0].substring(0, 20) || "Untitled";
         filenameDisplay.textContent = firstLine;
     }
 
@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
         fileInput.click();
+        saveFile();
     }
 
     // Attach event listener to the editor for user input
