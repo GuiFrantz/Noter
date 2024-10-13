@@ -3,15 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Text Editor</title>
     <link rel="stylesheet" href="style.css">
+    <title>WebNote</title>
 </head>
 <body>
+    <header>
+        <div class="header-left">
+            <h1>WebNote</h1>
+            <p id="filename">Untitled</p>
+        </div>
+        <div class="header-right">
+            <button id="openFileBtn">Open</button>
+            <button id="saveFileBtn">Download</button>
+        </div>
+    </header>
     <div class="editor-container">
-        <h1>Text Editor</h1>
         <textarea id="editor" placeholder="Start typing..."></textarea>
-        <button id="saveBtn">Save</button>
     </div>
+    <footer>
+        <p>Created by <a href="https://github.com/GuiFrantz" >@Gui Frantz</a></p>
+    </footer>
+
     <script src="script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
