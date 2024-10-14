@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     const editor = document.getElementById("editor");
-    const filenameDisplay = document.getElementById("filename");
+    const filenameInput = document.getElementById("filename");
     const lastSavedDisplay = document.getElementById("lastSaved");
     let timer, saveTimer;
+    let isFilenameManual = false;
 
     // Load saved content from localStorage
     if (localStorage.getItem("current_tab_content")) {
@@ -34,20 +35,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);  // Save after 1 second of inactivity
     }
 
-    // Update filename display to only use the first line
+    // Update filename if not manually set
     function updateFilename() {
-        const content = editor.value.trim();
-        const firstLine = content.split("\n")[0].substring(0, 20) || "Untitled";
-        filenameDisplay.textContent = firstLine;
+        if (!isFilenameManual) {
+            const content = editor.value.trim();
+            const firstLine = content.split("\n")[0].substring(0, 20) || "Untitled";
+            filenameInput.value = firstLine;
+        }
     }
 
-    // Save file
+    // Save file with the current filename
     function saveFile() {
         const blob = new Blob([editor.value], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = filenameDisplay.textContent || "untitled.txt";
+        a.download = filenameInput.value || "untitled.txt";
         a.click();
         URL.revokeObjectURL(url);
     }
@@ -63,7 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     editor.value = e.target.result;
-                    updateFilename();
+                    filenameInput.value = file.name.replace(".txt", ""); // Keep the file's original name
+                    isFilenameManual = true; // Set as manual since we have a filename now
                 };
                 reader.readAsText(file);
             }
@@ -75,6 +79,11 @@ document.addEventListener("DOMContentLoaded", () => {
     editor.addEventListener("input", () => {
         autoSave();
         updateFilename();
+    });
+
+    // Detect manual filename changes
+    filenameInput.addEventListener("input", () => {
+        isFilenameManual = true;
     });
 
     // Event listeners for the buttons
