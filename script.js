@@ -75,6 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
         fileInput.click();
     }
 
+    function newFile() {
+        editor.value = ""; // Clear the editor content
+        filenameInput.value = "Untitled"; // Reset filename to a default value
+        isFilenameManual = false; // Reset filename to automatic mode
+        localStorage.removeItem("current_tab_content"); // Clear saved content from localStorage
+        lastSavedDisplay.textContent = ""; // Clear any save status display
+    }
+
     // Attach event listener to the editor for user input
     editor.addEventListener("input", () => {
         autoSave();
@@ -89,4 +97,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // Event listeners for the buttons
     document.getElementById("openFileBtn").addEventListener("click", openFile);
     document.getElementById("saveFileBtn").addEventListener("click", saveFile);
+    document.getElementById("newFileBtn").addEventListener("click", newFile);
 });
