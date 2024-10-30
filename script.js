@@ -44,8 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Save file with the current filename
-    function saveFile() {
+    // Download file with the current filename
+    function downloadFile() {
         const blob = new Blob([editor.value], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -96,6 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Event listeners for the buttons
     document.getElementById("openFileBtn").addEventListener("click", openFile);
-    document.getElementById("saveFileBtn").addEventListener("click", saveFile);
+    document.getElementById("downloadFileBtn").addEventListener("click", downloadFile);
     document.getElementById("newFileBtn").addEventListener("click", newFile);
 });
