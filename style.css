@@ -108,7 +108,29 @@ footer a:hover {
     border-right: .5px #757575 solid;
 }
 
-@media (pointer:coarse) {
+@media (pointer: coarse) {
+    header, footer {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        padding: 12px;
+        z-index: 1;
+        background-color: #181818;
+    }
+
+    header {
+        top: 0;
+    }
+
+    footer {
+        bottom: 0;
+    }
+
+    .editor-container {
+        margin-top: 50px; /* Space for the fixed header */
+        padding-bottom: 50px; /* Space for the fixed footer */
+    }
+
     button {
         background-color: #757575;
     }
