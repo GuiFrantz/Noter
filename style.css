@@ -49,7 +49,11 @@ header h1 {
 .editor-container {
     flex: 1;
     max-width: 792px;
+    
 }
+#editor::-webkit-scrollbar {
+    display: none;
+  }
 
 #editor {
     width: 100%;
@@ -61,6 +65,7 @@ header h1 {
     color: white;
     outline: none;
     border: none;
+    scrollbar-width: none;
 }
 
 footer {
@@ -74,7 +79,7 @@ footer {
     height:3rem;
 }
 
-footer a { /*Make this into button (the entire text, not just the @)*/
+footer a {
     color: #757575;
     text-decoration: none;
 }
