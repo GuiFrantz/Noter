@@ -47,6 +47,10 @@ header h1 {
     margin-right: 12px;
 }
 
+#logo-header {
+    width: 1rem;
+}
+
 #filename {
     background: transparent;
     border: none;
@@ -92,7 +96,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     font-size: .8rem;
-    height:2rem;
+    height:3rem;
 }
 
 footer a {
@@ -114,7 +118,7 @@ footer a {
 }
 
 #git-logo {
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 footer a:hover {
