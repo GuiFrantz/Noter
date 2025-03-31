@@ -83,6 +83,31 @@ document.addEventListener("DOMContentLoaded", () => {
         lastSavedDisplay.textContent = ""; // Clear any save status display
     }
 
+    // TAB support
+    editor.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab' && !e.shiftKey) {
+        e.preventDefault();
+        const start = e.target.selectionStart;
+        const end = e.target.selectionEnd;
+        e.target.value = e.target.value.substring(0, start) + '\t' + e.target.value.substring(end);
+        e.target.selectionStart = e.target.selectionEnd = start + 1;
+      }
+    });
+
+    // Bracket auto-completion
+    editor.addEventListener('keyup', (e) => {
+      const bracketPairs = { '(': ')', '{': '}', '[': ']', '"': '"' };
+      if (Object.keys(bracketPairs).includes(e.key)) {
+        const closeBracket = bracketPairs[e.key];
+        const pos = e.target.selectionStart;
+        if (e.target.value.substring(pos, pos + 1) !== closeBracket) {
+          e.target.value = e.target.value.substring(0, pos) + closeBracket + e.target.value.substring(pos);
+          e.target.selectionStart = pos;
+          e.target.selectionEnd = pos;
+        }
+      }
+    });
+
     // Attach event listener to the editor for user input
     editor.addEventListener("input", () => {
         autoSave();
