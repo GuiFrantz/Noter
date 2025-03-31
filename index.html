@@ -1,38 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="images/logo.png" type="image/x-icon">
-    <title>Noter</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="images/logo.png" type="image/x-icon" />
+  <title>Noter</title>
+  <style>
+    @media (pointer: coarse) {
+      body {
+        height: 95vh;
+      }
+      footer {
+        display: none;
+      }
+    }
+    @media (max-width: 400px) {
+      header h1 {
+        display: none;
+      }
+      footer a {
+        display: none;
+      }
+      footer {
+        justify-content: center;
+        height: 2rem;
+      }
+      .actions {
+        width: 100%;
+      }
+    }
+    @media (max-width: 300px) {
+      * {
+        font-size: 0.8rem;
+      }
+    }
+    /* Hide scrollbars on the editor */
+    #editor::-webkit-scrollbar {
+      display: none;
+    }
+    #editor {
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body>
-    <header>
-        <div class="title">
-            <img src="images/logo.png" alt="Noter" id="logo-header"/>
-            <h1>Noter</h1>
-            <input type="text" id="filename" value="Untitled" placeholder="Filename" />
-        </div>
-            <p id="lastSaved"></p>
-    </header>
-    <div class="editor-container">
-        <textarea id="editor" placeholder="Start typing..."></textarea>
+<body class="bg-[#252e3b] text-[#e3cda4] flex flex-col h-screen max-w-[792px] mx-auto px-3">
+  <header class="flex flex-row justify-between items-center my-3">
+    <div class="flex flex-row items-center">
+      <img src="images/logo.png" alt="Noter" id="logo-header" class="max-w-[1.5rem]" />
+      <h1 class="text-[1rem] mr-3">Noter</h1>
+      <input
+        type="text"
+        id="filename"
+        value="Untitled"
+        placeholder="Filename"
+        class="bg-transparent border-0 text-[1rem] text-[#7e827a] focus:outline-none"
+      />
     </div>
-    <footer>
-        <a href="https://github.com/GuiFrantz/noter" target="_blank" rel="noopener noreferrer">
-            <ion-icon name="logo-github" id="git-logo">
-        </a>
-        <div class="actions">
-            <button id="openFileBtn">Open</button>
-            <button id="downloadFileBtn">Download</button>
-            <button id="newFileBtn">New</button>
-        </div>
-    </footer>
+    <p id="lastSaved"></p>
+  </header>
+  <div class="editor-container flex-1 max-w-[792px]">
+    <textarea
+      id="editor"
+      placeholder="Start typing..."
+      class="w-full h-full text-[1rem] leading-6 resize-none bg-transparent text-[#e3cda4] outline-none border-0 placeholder:text-[#7e827a]"
+    ></textarea>
+  </div>
+  <footer class="m-2 p-0 bg-transparent flex justify-between items-center text-[0.8rem] h-12">
+    <a
+      href="https://github.com/GuiFrantz/noter"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="bg-[#965c4d] no-underline border-0 text-[#e3cda4] px-3 gap-2 cursor-pointer h-full w-auto flex justify-center items-center rounded-full min-w-[3rem] transition ease-in-out duration-100 hover:bg-[#e3cda4] hover:text-[#965c4d]"
+    >
+      <ion-icon name="logo-github" id="git-logo" class="text-[1.5rem]"></ion-icon>
+    </a>
+    <div class="actions flex items-center h-full w-[20rem] justify-between gap-[0.1rem]">
+      <button
+        id="openFileBtn"
+        class="bg-[#965c4d] border-0 text-[#e3cda4] cursor-pointer w-full h-full rounded-l-full transition ease-in-out duration-100 hover:bg-[#e3cda4] hover:text-[#965c4d]"
+      >
+        Open
+      </button>
+      <button
+        id="downloadFileBtn"
+        class="bg-[#965c4d] border-0 text-[#e3cda4] cursor-pointer w-full h-full transition ease-in-out duration-100 hover:bg-[#e3cda4] hover:text-[#965c4d]"
+      >
+        Download
+      </button>
+      <button
+        id="newFileBtn"
+        class="bg-[#965c4d] border-0 text-[#e3cda4] cursor-pointer w-full h-full rounded-r-full transition ease-in-out duration-100 hover:bg-[#e3cda4] hover:text-[#965c4d]"
+      >
+        New
+      </button>
+    </div>
+  </footer>
 
-    <script src="script.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
+  <script src="script.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
