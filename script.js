@@ -94,20 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Bracket auto-completion
-    editor.addEventListener('keyup', (e) => {
-      const bracketPairs = { '(': ')', '{': '}', '[': ']', '"': '"' };
-      if (Object.keys(bracketPairs).includes(e.key)) {
-        const closeBracket = bracketPairs[e.key];
-        const pos = e.target.selectionStart;
-        if (e.target.value.substring(pos, pos + 1) !== closeBracket) {
-          e.target.value = e.target.value.substring(0, pos) + closeBracket + e.target.value.substring(pos);
-          e.target.selectionStart = pos;
-          e.target.selectionEnd = pos;
-        }
-      }
-    });
-
     // Attach event listener to the editor for user input
     editor.addEventListener("input", () => {
         autoSave();
