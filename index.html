@@ -19,16 +19,6 @@
       header h1 {
         display: none;
       }
-      footer a {
-        display: none;
-      }
-      footer {
-        justify-content: center;
-        height: 2rem;
-      }
-      .actions {
-        width: 100%;
-      }
     }
     @media (max-width: 300px) {
       * {
@@ -73,39 +63,47 @@
       class="w-full h-full text-[1rem] leading-6 resize-none bg-transparent text-[#e3cda4] outline-none border-0 placeholder:text-[#7e827a]"
     ></textarea>
   </div>
-  <footer class="m-2 p-0 bg-transparent flex justify-between items-center text-[0.8rem] h-12 gap-1">
-    <a
-      href="https://github.com/GuiFrantz/noter"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="bg-[#965c4d] no-underline border-0 text-[#e3cda4] px-3 gap-2 cursor-pointer h-full w-auto flex justify-center items-center rounded-full min-w-[3rem] transition ease-in-out duration-100 hover:bg-[#e3cda4] hover:text-[#965c4d]"
+  <footer class="group m-2 p-0 bg-transparent flex justify-end items-center text-[0.8rem] h-8">
+    <nav
+      class="actions flex items-center h-full whitespace-nowrap overflow-hidden max-w-0 opacity-0 translate-x-2 transition-all duration-300 ease-in-out group-hover:max-w-md group-hover:opacity-100 group-hover:translate-x-0 group-focus-within:max-w-md group-focus-within:opacity-100 group-focus-within:translate-x-0"
     >
-      <ion-icon name="logo-github" id="git-logo" class="text-[1.5rem]"></ion-icon>
-    </a>
-    <div class="actions flex items-center h-full w-[20rem] justify-between gap-[0.1rem]">
       <button
         id="openFileBtn"
-        class="bg-[#965c4d] border-0 text-[#e3cda4] cursor-pointer w-full h-full rounded-l-full transition ease-in-out duration-100 hover:bg-[#e3cda4] hover:text-[#965c4d]"
+        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]"
       >
-        Open
+        Load
       </button>
+      <span class="text-[#7e827a] opacity-40 select-none">|</span>
       <button
         id="downloadFileBtn"
-        class="bg-[#965c4d] border-0 text-[#e3cda4] cursor-pointer w-full h-full transition ease-in-out duration-100 hover:bg-[#e3cda4] hover:text-[#965c4d]"
+        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]"
       >
         Download
       </button>
+      <span class="text-[#7e827a] opacity-40 select-none">|</span>
       <button
         id="newFileBtn"
-        class="bg-[#965c4d] border-0 text-[#e3cda4] cursor-pointer w-full h-full rounded-r-full transition ease-in-out duration-100 hover:bg-[#e3cda4] hover:text-[#965c4d]"
+        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]"
       >
         New
       </button>
-    </div>
+      <span class="text-[#7e827a] opacity-40 select-none">|</span>
+      <a
+        href="https://github.com/GuiFrantz/noter"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="no-underline cursor-pointer h-full px-3 flex items-center text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]"
+      >
+        Gui Frantz
+      </a>
+    </nav>
+    <span
+      aria-hidden="true"
+      class="text-[#7e827a] tracking-widest select-none cursor-default overflow-hidden max-w-[2rem] transition-all duration-300 ease-in-out group-hover:max-w-0 group-hover:opacity-0 group-focus-within:max-w-0 group-focus-within:opacity-0"
+      >•••</span
+    >
   </footer>
 
   <script src="script.js"></script>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
