@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,99 +12,96 @@
       body {
         height: 95vh;
       }
+
       footer {
         display: none;
       }
     }
+
     @media (max-width: 400px) {
       header h1 {
         display: none;
       }
     }
+
     @media (max-width: 300px) {
       * {
         font-size: 0.8rem;
       }
     }
+
     #editor::-webkit-scrollbar {
       width: 6px;
     }
+
     #editor::-webkit-scrollbar-track {
       background: transparent;
     }
+
     #editor::-webkit-scrollbar-thumb {
       background-color: #965c4d;
       border-radius: 3px;
     }
+
     #editor {
       scrollbar-width: thin;
       scrollbar-color: #965c4d transparent;
     }
   </style>
 </head>
+
 <body class="bg-[#252e3b] text-[#e3cda4] flex flex-col h-screen max-w-[792px] mx-auto px-3">
   <header class="flex flex-row justify-between items-center my-3">
     <div class="flex flex-row items-center">
       <img src="images/logo.png" alt="Noter" id="logo-header" class="max-w-[1.5rem]" />
       <h1 class="text-[1rem] mr-3">Noter</h1>
-      <input
-        type="text"
-        id="filename"
-        value="Untitled"
-        placeholder="Filename"
-        class="bg-transparent border-0 text-[1rem] text-[#7e827a] focus:outline-none"
-      />
+      <input type="text" id="filename" value="Untitled" placeholder="Filename"
+        class="bg-transparent border-0 text-[1rem] text-[#7e827a] focus:outline-none" />
     </div>
     <p id="lastSaved"></p>
   </header>
   <div class="editor-container flex-1 max-w-[792px]">
-    <textarea
-      id="editor"
-      placeholder="Start typing..."
-      class="w-full h-full text-[1rem] leading-6 resize-none bg-transparent text-[#e3cda4] outline-none border-0 placeholder:text-[#7e827a]"
-    ></textarea>
+    <textarea id="editor" placeholder="Start typing..."
+      class="w-full h-full text-[1rem] leading-6 resize-none bg-transparent text-[#e3cda4] outline-none border-0 placeholder:text-[#7e827a]"></textarea>
   </div>
-  <footer class="group m-2 p-0 bg-transparent flex justify-end items-center text-[0.8rem] h-8">
+  <footer class="group relative m-2 p-0 bg-transparent flex justify-end items-center text-[0.8rem] h-8">
+    <div class="stats absolute left-0 flex items-center h-full whitespace-nowrap">
+      <button id="charCountBtn"
+        class="bg-transparent border-0 h-full pl-0 pr-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]">
+        0 chars
+      </button>
+      <span class="text-[#7e827a] opacity-40 select-none">|</span>
+      <span id="ttrBtn" class="flex items-center h-full px-3 text-[#7e827a]">
+        0'00"
+      </span>
+    </div>
     <nav
-      class="actions flex items-center h-full whitespace-nowrap overflow-hidden max-w-0 opacity-0 translate-x-2 transition-all duration-300 ease-in-out group-hover:max-w-md group-hover:opacity-100 group-hover:translate-x-0 group-focus-within:max-w-md group-focus-within:opacity-100 group-focus-within:translate-x-0"
-    >
-      <button
-        id="openFileBtn"
-        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]"
-      >
+      class="actions relative z-10 bg-[#252e3b] flex items-center h-full whitespace-nowrap overflow-hidden max-w-0 opacity-0 translate-x-2 transition-all duration-300 ease-in-out group-hover:max-w-md group-hover:opacity-100 group-hover:translate-x-0 group-focus-within:max-w-md group-focus-within:opacity-100 group-focus-within:translate-x-0">
+      <button id="openFileBtn"
+        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]">
         Load
       </button>
       <span class="text-[#7e827a] opacity-40 select-none">|</span>
-      <button
-        id="downloadFileBtn"
-        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]"
-      >
+      <button id="downloadFileBtn"
+        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]">
         Download
       </button>
       <span class="text-[#7e827a] opacity-40 select-none">|</span>
-      <button
-        id="newFileBtn"
-        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]"
-      >
+      <button id="newFileBtn"
+        class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]">
         New
       </button>
       <span class="text-[#7e827a] opacity-40 select-none">|</span>
-      <a
-        href="https://github.com/GuiFrantz/noter"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="no-underline cursor-pointer h-full px-3 flex items-center text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]"
-      >
+      <a href="https://github.com/GuiFrantz/noter" target="_blank" rel="noopener noreferrer"
+        class="no-underline cursor-pointer h-full px-3 flex items-center text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]">
         Gui Frantz
       </a>
     </nav>
-    <span
-      aria-hidden="true"
-      class="text-[#7e827a] tracking-widest select-none cursor-default overflow-hidden max-w-[2rem] transition-all duration-300 ease-in-out group-hover:max-w-0 group-hover:opacity-0 group-focus-within:max-w-0 group-focus-within:opacity-0"
-      >•••</span
-    >
+    <span aria-hidden="true"
+      class="text-[#7e827a] tracking-widest select-none cursor-default overflow-hidden max-w-[2rem] transition-all duration-300 ease-in-out group-hover:max-w-0 group-hover:opacity-0 group-focus-within:max-w-0 group-focus-within:opacity-0">•••</span>
   </footer>
 
   <script src="script.js"></script>
 </body>
+
 </html>
