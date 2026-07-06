@@ -31,21 +31,28 @@
     }
 
     #editor::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    #editor::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    #editor::-webkit-scrollbar-thumb {
-      background-color: #965c4d;
-      border-radius: 3px;
+      width: 0;
+      height: 0;
     }
 
     #editor {
-      scrollbar-width: thin;
-      scrollbar-color: #965c4d transparent;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .custom-scrollbar-thumb {
+      position: absolute;
+      right: 1px;
+      width: 1px;
+      background-color: #7e827a;
+      border-radius: 1px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .custom-scrollbar-thumb.visible {
+      opacity: 1;
     }
   </style>
 </head>
@@ -60,9 +67,10 @@
     </div>
     <p id="lastSaved"></p>
   </header>
-  <div class="editor-container flex-1 max-w-[792px]">
+  <div class="editor-container relative flex-1 max-w-[792px]">
     <textarea id="editor" placeholder="Start typing..."
       class="w-full h-full text-[1rem] leading-6 resize-none bg-transparent text-[#e3cda4] outline-none border-0 placeholder:text-[#7e827a]"></textarea>
+    <div id="scrollThumb" class="custom-scrollbar-thumb"></div>
   </div>
   <footer class="group relative m-2 p-0 bg-transparent flex justify-end items-center text-[0.8rem] h-8">
     <div class="stats absolute left-0 flex items-center h-full whitespace-nowrap">
