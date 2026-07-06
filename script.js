@@ -112,6 +112,33 @@ document.addEventListener("DOMContentLoaded", () => {
         updateStats();
     }
 
+    // Custom thin overlay scrollbar, only visible while scrolling
+    const scrollThumb = document.getElementById("scrollThumb");
+    let scrollTimer;
+
+    function updateScrollThumb() {
+        const { scrollTop, scrollHeight, clientHeight } = editor;
+        if (scrollHeight <= clientHeight) {
+            scrollThumb.style.opacity = "0";
+            return;
+        }
+        const thumbHeight = Math.max((clientHeight / scrollHeight) * clientHeight, 24);
+        const thumbTop = (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - thumbHeight);
+        scrollThumb.style.height = `${thumbHeight}px`;
+        scrollThumb.style.top = `${thumbTop}px`;
+    }
+
+    function showScrollThumb() {
+        updateScrollThumb();
+        scrollThumb.classList.add("visible");
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+            scrollThumb.classList.remove("visible");
+        }, 800);
+    }
+
+    editor.addEventListener("scroll", showScrollThumb);
+
     // TAB support
     editor.addEventListener('keydown', (e) => {
         if (e.key === 'Tab' && !e.shiftKey) {
