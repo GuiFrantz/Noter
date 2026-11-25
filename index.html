@@ -9,13 +9,20 @@
   <title>Noter</title>
   <style>
     @media (pointer: coarse) {
-      body {
-        height: 95vh;
-      }
-
       footer {
         display: none;
       }
+    }
+
+    /* The editor is the only thing that scrolls, never the page */
+    html,
+    body {
+      overflow: hidden;
+    }
+
+    body {
+      height: 100vh;
+      height: 100dvh;
     }
 
     @media (max-width: 400px) {
@@ -28,6 +35,45 @@
       * {
         font-size: 0.8rem;
       }
+    }
+
+    /* ---------- Edge fade: text dissolves behind the header/footer ---------- */
+
+    /* Text is fully hidden behind the bars (solid), then fades in over the next stretch (end) */
+    .editor-container {
+      --top-solid: 2.5rem;
+      --top-end: 3.75rem;
+      --bottom-solid: 2.5rem;
+      --bottom-end: 3.75rem;
+      --bar-alpha: 0.07; /* how much text still shows through behind the bars */
+    }
+
+    @media (pointer: coarse) {
+      .editor-container {
+        --bottom-solid: 0rem;
+        --bottom-end: 1.25rem;
+      }
+    }
+
+    #editor {
+      padding-top: var(--top-end);
+      padding-bottom: var(--bottom-end);
+      -webkit-mask-image: linear-gradient(to bottom,
+          rgba(0, 0, 0, var(--bar-alpha)) var(--top-solid),
+          #000 var(--top-end),
+          #000 calc(100% - var(--bottom-end)),
+          rgba(0, 0, 0, var(--bar-alpha)) calc(100% - var(--bottom-solid)));
+      mask-image: linear-gradient(to bottom,
+          rgba(0, 0, 0, var(--bar-alpha)) var(--top-solid),
+          #000 var(--top-end),
+          #000 calc(100% - var(--bottom-end)),
+          rgba(0, 0, 0, var(--bar-alpha)) calc(100% - var(--bottom-solid)));
+    }
+
+    /* "saved" fades out to the left over the filename instead of cutting it */
+    #lastSaved {
+      padding-left: 1.5rem;
+      background: linear-gradient(to right, transparent, rgba(37, 46, 59, 0.95) 1.25rem);
     }
 
     #editor::-webkit-scrollbar {
@@ -74,6 +120,7 @@
 
     /* Actions slide in to the left of the ellipsis; scroll horizontally if they don't fit */
     #actions {
+      background: linear-gradient(to right, transparent, rgba(37, 46, 59, 0.95) 1.25rem);
       height: 2rem;
       min-width: 0;
       max-width: 0;
@@ -110,23 +157,23 @@
   </style>
 </head>
 
-<body class="bg-[#252e3b] text-[#e3cda4] flex flex-col h-screen max-w-[792px] mx-auto px-3">
-  <header class="relative flex flex-row items-center my-3">
+<body class="relative bg-[#252e3b] text-[#e3cda4] max-w-[792px] mx-auto px-3">
+  <header class="absolute top-0 left-3 right-3 z-10 flex flex-row items-center h-12">
     <div class="flex flex-row items-center flex-1 min-w-0">
       <img src="images/logo.png" alt="Noter" id="logo-header" class="max-w-[1.5rem] shrink-0" />
       <h1 class="text-[1rem] mr-3">Noter</h1>
       <input type="text" id="filename" value="Untitled" placeholder="Filename" maxlength="50"
         class="flex-1 min-w-0 bg-transparent border-0 text-[1rem] text-[#7e827a] focus:outline-none" />
     </div>
-    <p id="lastSaved" class="absolute right-0 pl-2 bg-[#252e3b] pointer-events-none empty:hidden"></p>
+    <p id="lastSaved" class="absolute right-0 pointer-events-none empty:hidden"></p>
   </header>
-  <div class="editor-container relative flex-1 max-w-[792px]">
+  <div class="editor-container absolute inset-y-0 left-3 right-3">
     <textarea id="editor" placeholder="Start typing..."
       class="w-full h-full text-[1rem] leading-6 resize-none bg-transparent text-[#e3cda4] outline-none border-0 placeholder:text-[#7e827a]"></textarea>
     <div id="scrollThumb" class="custom-scrollbar-thumb"></div>
   </div>
   <footer id="footer" data-open="false"
-    class="relative m-2 p-0 bg-transparent flex justify-end items-center text-[0.8rem] min-h-[2rem]">
+    class="absolute bottom-0 left-5 right-5 mb-2 z-10 p-0 bg-transparent flex justify-end items-center text-[0.8rem] min-h-[2rem]">
     <div class="stats absolute left-0 bottom-0 flex items-center h-8 whitespace-nowrap">
       <button id="charCountBtn"
         class="bg-transparent border-0 h-full pl-0 pr-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]">
@@ -137,7 +184,7 @@
         0'00"
       </span>
     </div>
-    <nav id="actions" inert class="relative z-10 bg-[#252e3b] flex items-center whitespace-nowrap">
+    <nav id="actions" inert class="relative z-10 flex items-center whitespace-nowrap">
       <div id="actionsInner" class="flex flex-none items-center h-8">
         <button id="openFileBtn"
           class="bg-transparent border-0 h-full px-3 cursor-pointer text-[#7e827a] transition ease-in-out duration-100 hover:text-[#e3cda4]">

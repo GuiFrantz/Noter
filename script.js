@@ -154,6 +154,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     editor.addEventListener("scroll", showScrollThumb);
 
+    // Keep the caret line inside the clear area, outside the fade zones behind the bars
+    const caretMirror = document.createElement("div");
+    const mirrorProps = [
+        "boxSizing", "fontFamily", "fontSize", "fontWeight", "fontStyle", "letterSpacing",
+        "lineHeight", "wordSpacing", "textIndent", "tabSize", "paddingLeft", "paddingRight",
+        "borderLeftWidth", "borderRightWidth", "borderLeftStyle", "borderRightStyle",
+    ];
+    let caretFrame;
+
+    function keepCaretVisible() {
+        cancelAnimationFrame(caretFrame);
+        caretFrame = requestAnimationFrame(() => {
+            if (document.activeElement !== editor || editor.selectionStart !== editor.selectionEnd) return;
+
+            const cs = getComputedStyle(editor);
+            const padTop = parseFloat(cs.paddingTop) || 0;
+            const padBottom = parseFloat(cs.paddingBottom) || 0;
+            const lineHeight = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.5;
+
+            // Measure where the caret sits using an off-screen copy of the text
+            caretMirror.style.cssText =
+                "position:fixed;visibility:hidden;pointer-events:none;top:0;left:-9999px;white-space:pre-wrap;overflow-wrap:break-word;";
+            mirrorProps.forEach((prop) => (caretMirror.style[prop] = cs[prop]));
+            caretMirror.style.width = `${editor.clientWidth}px`;
+            caretMirror.textContent = editor.value.substring(0, editor.selectionStart);
+            const marker = document.createElement("span");
+            marker.textContent = "\u200b";
+            caretMirror.appendChild(marker);
+            document.body.appendChild(caretMirror);
+            const caretTop = padTop + marker.offsetTop;
+            document.body.removeChild(caretMirror);
+
+            const caretBottom = caretTop + lineHeight;
+            const visibleTop = editor.scrollTop + padTop;
+            const visibleBottom = editor.scrollTop + editor.clientHeight - padBottom;
+
+            if (caretBottom > visibleBottom) {
+                editor.scrollTop += caretBottom - visibleBottom;
+            } else if (caretTop < visibleTop) {
+                editor.scrollTop -= visibleTop - caretTop;
+            }
+        });
+    }
+
+    ["input", "keyup", "click"].forEach((evt) => editor.addEventListener(evt, keepCaretVisible));
+    document.addEventListener("selectionchange", keepCaretVisible);
+
     // TAB support
     editor.addEventListener('keydown', (e) => {
         if (e.key === 'Tab' && !e.shiftKey) {
