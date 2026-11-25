@@ -11,6 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load saved content from localStorage
     if (localStorage.getItem("current_tab_content")) {
         editor.value = localStorage.getItem("current_tab_content");
+    }
+    const savedFilename = localStorage.getItem("current_tab_filename");
+    if (savedFilename) {
+        filenameInput.value = savedFilename;
+        isFilenameManual = true;
+    } else {
         updateFilename();
     }
     updateStats();
@@ -40,7 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Save content to localStorage and show the "Saving..." status
     function saveContent() {
+        clearTimeout(timer); // Cancel any pending auto-save, this one covers it
         localStorage.setItem("current_tab_content", editor.value);
+        if (isFilenameManual) {
+            localStorage.setItem("current_tab_filename", filenameInput.value);
+        } else {
+            localStorage.removeItem("current_tab_filename");
+        }
         showSavingStatus();
     }
 
@@ -66,13 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateFilename() {
         if (!isFilenameManual) {
             const content = editor.value.trim();
-            const firstLine = content.split("\n")[0].substring(0, 20) || "Untitled";
+            const firstLine = content.split("\n")[0].substring(0, 25) || "Untitled";
             filenameInput.value = firstLine;
         }
     }
 
     // Download file with the current filename
     function downloadFile() {
+        saveContent(); // Save first, then download
         const blob = new Blob([editor.value], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -93,9 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     editor.value = e.target.result;
-                    filenameInput.value = file.name.replace(".txt", ""); // Keep the file's original name
+                    filenameInput.value = file.name.replace(".txt", "").substring(0, 50); // Keep the file's original name
                     isFilenameManual = true; // Set as manual since we have a filename now
                     updateStats();
+                    saveContent();
                 };
                 reader.readAsText(file);
             }
@@ -108,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
         filenameInput.value = "Untitled"; // Reset filename to a default value
         isFilenameManual = false; // Reset filename to automatic mode
         localStorage.removeItem("current_tab_content"); // Clear saved content from localStorage
+        localStorage.removeItem("current_tab_filename");
         lastSavedDisplay.textContent = ""; // Clear any save status display
         updateStats();
     }
@@ -160,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Detect manual filename changes
     filenameInput.addEventListener("input", () => {
         isFilenameManual = true;
+        autoSave();
     });
 
     // Event listeners for the buttons
@@ -172,4 +188,28 @@ document.addEventListener("DOMContentLoaded", () => {
         showWords = !showWords;
         updateStats();
     });
+
+    // Footer actions (ellipsis button)
+    const footer = document.getElementById("footer");
+    const menuBtn = document.getElementById("menuBtn");
+    const actions = document.getElementById("actions");
+
+    function setActionsOpen(open) {
+        footer.dataset.open = String(open);
+        menuBtn.setAttribute("aria-expanded", String(open));
+        actions.inert = !open;
+    }
+
+    menuBtn.addEventListener("click", () => {
+        setActionsOpen(footer.dataset.open !== "true");
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!footer.contains(e.target)) setActionsOpen(false);
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setActionsOpen(false);
+    });
+
 });
